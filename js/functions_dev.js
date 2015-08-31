@@ -27,13 +27,13 @@ $(function () {
     }, Garden.options.growSpeed);
 });
 
-$(window).resize(function() {
+/*$(window).resize(function() {
     var newWidth = $(window).width();
     var newHeight = $(window).height();
     if (newWidth != clientWidth && newHeight != clientHeight) {
         location.replace(location);
     }
-});
+});*/
 
 function getHeartPoint(angle) {
 	var t = angle / Math.PI;
@@ -70,27 +70,24 @@ function startHeartAnimation() {
 	}, interval);
 }
 
-(function($) {
-	$.fn.typewriter = function() {
-		this.each(function() {
-			var $ele = $(this), str = $ele.html(), progress = 0;
-			$ele.html('');
-			var timer = setInterval(function() {
-				var current = str.substr(progress, 1);
-				if (current == '<') {
-					progress = str.indexOf('>', progress) + 1;
-				} else {
-					progress++;
-				}
-				$ele.html(str.substring(0, progress) + (progress & 1 ? '_' : ''));
-				if (progress >= str.length) {
-					clearInterval(timer);
-				}
-			}, 75);
-		});
-		return this;
-	};
-})(jQuery);
+function typewriter(code) {
+	code = $(code);
+	console.log(code);
+	var $ele = $(code), str = $ele.html(), progress = 0;
+	$ele.html('');
+	var timer = setInterval(function() {
+		var current = str.substr(progress, 1);
+		if (current == '<') {
+			progress = str.indexOf('>', progress) + 1;
+		} else {
+			progress++;
+		}
+		$ele.html(str.substring(0, progress) + (progress & 1 ? '_' : ''));
+		if (progress >= str.length) {
+			clearInterval(timer);
+		}
+	}, 75);
+};
 
 function getDaysInMonth(month) {
 	var data = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
