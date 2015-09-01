@@ -2,7 +2,6 @@
 var gardenCtx, gardenCanvas, $garden, garden;
 var clientWidth = $(window).width();
 var clientHeight = $(window).height();
-
 $(function () {
     // setup garden
 	$loveHeart = $("#loveHeart");
@@ -20,13 +19,11 @@ $(function () {
 	$("#content").css("height", Math.max($loveHeart.height(), $("#code").height()));
 	$("#content").css("margin-top", Math.max(($(window).height() - $("#content").height()) / 2, 10));
 	$("#content").css("margin-left", Math.max(($(window).width() - $("#content").width()) / 2, 10));
-
     // renderLoop
     setInterval(function () {
         garden.render();
     }, Garden.options.growSpeed);
 });
-
 /*$(window).resize(function() {
     var newWidth = $(window).width();
     var newHeight = $(window).height();
@@ -34,14 +31,12 @@ $(function () {
         location.replace(location);
     }
 });*/
-
 function getHeartPoint(angle) {
 	var t = angle / Math.PI;
 	var x = 19.5 * (16 * Math.pow(Math.sin(t), 3));
 	var y = - 20 * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
 	return new Array(offsetX + x, offsetY + y);
 }
-
 function startHeartAnimation() {
 	var interval = 50;
 	var angle = 10;
@@ -69,7 +64,6 @@ function startHeartAnimation() {
 		}
 	}, interval);
 }
-
 function typewriter(code) {
 	code = $(code);
 	var $ele = $(code), str = $ele.html(), progress = 0;
@@ -87,12 +81,10 @@ function typewriter(code) {
 		}
 	}, 75);
 };
-
 function getDaysInMonth(month) {
 	var data = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 	return data[month];
 }
-
 function timeElapse(date, mode) {
 	var current = new Date();
 	var years = NaN;
@@ -106,19 +98,16 @@ function timeElapse(date, mode) {
 		seconds += 60;
 		current.setMinutes(current.getMinutes() - 1);
 	}
-	console.log(seconds);
 	minutes = current.getMinutes() - date.getMinutes();
 	if (minutes < 0) {
 		minutes += 60;
 		current.setHours(current.getHours() - 1);
 	}
-	console.log(minutes);
 	hours = current.getHours() - date.getHours();
 	if (hours < 0) {
 		hours += 24;
 		current.setDate(current.getDate() - 1);
 	}
-	console.log(hours);
 	if (mode == 1) {
 		days = current.getDate() - date.getDate();
 		if (days < 0) {
@@ -134,7 +123,6 @@ function timeElapse(date, mode) {
 	} else {
 		days = Math.floor((current.getTime() - date.getTime()) / (1000 * 3600 * 24));
 	}
-
 	if (hours < 10) {
 		hours = "0" + hours;
 	}
@@ -153,24 +141,20 @@ function timeElapse(date, mode) {
 	
 	$("#elapseClock").html(result);
 }
-
 function showMessages() {
 	adjustWordsPosition();
 	$('#messages').fadeIn(5000, function() {
 		showLoveU();
 	});
 }
-
 function adjustWordsPosition() {
 	$('#words').css("position", "absolute");
 	$('#words').css("top", $("#garden").position().top + 195);
 	$('#words').css("left", $("#garden").position().left + 70);
 }
-
 function adjustCodePosition() {
 	$('#code').css("margin-top", ($("#garden").height() - $("#code").height()) / 2);
 }
-
 function showLoveU() {
 	$('#loveu').fadeIn(3000);
 }
