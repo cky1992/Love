@@ -95,27 +95,30 @@ function getDaysInMonth(month) {
 
 function timeElapse(date, mode) {
 	var current = new Date();
-	var years = 0;
-	var months = 0;
-	var days = 0;
-	var hours = 0;
-	var minutes = 0;
-	var seconds = 0;
+	var years = NaN;
+	var months = NaN;
+	var days = NaN;
+	var hours = NaN;
+	var minutes = NaN;
+	var seconds = NaN;
 	seconds = current.getSeconds() - date.getSeconds();
 	if (seconds < 0) {
 		seconds += 60;
 		current.setMinutes(current.getMinutes() - 1);
 	}
+	console.log(seconds);
 	minutes = current.getMinutes() - date.getMinutes();
 	if (minutes < 0) {
 		minutes += 60;
 		current.setHours(current.getHours() - 1);
 	}
+	console.log(minutes);
 	hours = current.getHours() - date.getHours();
 	if (hours < 0) {
 		hours += 24;
 		current.setDate(current.getDate() - 1);
 	}
+	console.log(hours);
 	if (mode == 1) {
 		days = current.getDate() - date.getDate();
 		if (days < 0) {
@@ -141,11 +144,11 @@ function timeElapse(date, mode) {
 	if (seconds < 10) {
 		seconds = "0" + seconds;
 	}
-	var result = (years > 0 ? "<span class=\"digit\">" + years + "</span> year ":"")
+	var result = (years > 0 ? "<span class=\"digit\">" + years + "</span> year ":"");
 	result += (months > 0 ? "<span class=\"digit\">" + months + "</span> month ":"");
 	result += "<span class=\"digit\">" + days + "</span> day ";
-	result += "<span class=\"digit\">" + hours + "</span> hr "
-	result += "<span class=\"digit\">" + minutes + "</span> min "
+	result += "<span class=\"digit\">" + hours + "</span> hr ";
+	result += "<span class=\"digit\">" + minutes + "</span> min ";
 	result += "<span class=\"digit\">" + seconds + "</span> sec";
 	
 	$("#elapseClock").html(result);
