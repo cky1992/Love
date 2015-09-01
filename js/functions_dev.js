@@ -1,5 +1,5 @@
 // variables
-var $window = $(window), gardenCtx, gardenCanvas, $garden, garden;
+var gardenCtx, gardenCanvas, $garden, garden;
 var clientWidth = $(window).width();
 var clientHeight = $(window).height();
 
@@ -18,8 +18,8 @@ $(function () {
 	
 	$("#content").css("width", $loveHeart.width() + $("#code").width());
 	$("#content").css("height", Math.max($loveHeart.height(), $("#code").height()));
-	$("#content").css("margin-top", Math.max(($window.height() - $("#content").height()) / 2, 10));
-	$("#content").css("margin-left", Math.max(($window.width() - $("#content").width()) / 2, 10));
+	$("#content").css("margin-top", Math.max(($(window).height() - $("#content").height()) / 2, 10));
+	$("#content").css("margin-left", Math.max(($(window).width() - $("#content").width()) / 2, 10));
 
     // renderLoop
     setInterval(function () {
@@ -72,7 +72,6 @@ function startHeartAnimation() {
 
 function typewriter(code) {
 	code = $(code);
-	console.log(code);
 	var $ele = $(code), str = $ele.html(), progress = 0;
 	$ele.html('');
 	var timer = setInterval(function() {
@@ -96,12 +95,12 @@ function getDaysInMonth(month) {
 
 function timeElapse(date, mode) {
 	var current = new Date();
-	var years = NaN;
-	var months = NaN;
-	var days = NaN;
-	var hours = NaN;
-	var minutes = NaN;
-	var seconds = NaN;
+	var years = 0;
+	var months = 0;
+	var days = 0;
+	var hours = 0;
+	var minutes = 0;
+	var seconds = 0;
 	seconds = current.getSeconds() - date.getSeconds();
 	if (seconds < 0) {
 		seconds += 60;
@@ -143,7 +142,7 @@ function timeElapse(date, mode) {
 		seconds = "0" + seconds;
 	}
 	var result = (years > 0 ? "<span class=\"digit\">" + years + "</span> year ":"")
-	result += (months >= 0 ? "<span class=\"digit\">" + months + "</span> month ":"");
+	result += (months > 0 ? "<span class=\"digit\">" + months + "</span> month ":"");
 	result += "<span class=\"digit\">" + days + "</span> day ";
 	result += "<span class=\"digit\">" + hours + "</span> hr "
 	result += "<span class=\"digit\">" + minutes + "</span> min "
