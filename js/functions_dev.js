@@ -1,42 +1,47 @@
 // variables
-var gardenCtx, gardenCanvas, gardenElement, garden;
+var $window = $(window), gardenCtx, gardenCanvas, $garden, garden;
 var clientWidth = $(window).width();
 var clientHeight = $(window).height();
+
 $(function () {
     // setup garden
 	$loveHeart = $("#loveHeart");
 	var offsetX = $loveHeart.width() / 2;
 	var offsetY = $loveHeart.height() / 2 - 55;
-    gardenElement = $("#garden");
-    gardenCanvas = gardenElement[0];
+    $garden = $("#garden");
+    gardenCanvas = $garden[0];
 	gardenCanvas.width = $("#loveHeart").width();
-    gardenCanvas.height = $("#loveHeart").height();
+    gardenCanvas.height = $("#loveHeart").height()
     gardenCtx = gardenCanvas.getContext("2d");
     gardenCtx.globalCompositeOperation = "lighter";
     garden = new Garden(gardenCtx, gardenCanvas);
 	
 	$("#content").css("width", $loveHeart.width() + $("#code").width());
 	$("#content").css("height", Math.max($loveHeart.height(), $("#code").height()));
-	$("#content").css("margin-top", Math.max(($(window).height() - $("#content").height()) / 2, 10));
-	$("#content").css("margin-left", Math.max(($(window).width() - $("#content").width()) / 2, 10));
+	$("#content").css("margin-top", Math.max(($window.height() - $("#content").height()) / 2, 10));
+	$("#content").css("margin-left", Math.max(($window.width() - $("#content").width()) / 2, 10));
+
     // renderLoop
     setInterval(function () {
         garden.render();
     }, Garden.options.growSpeed);
 });
-/*$(window).resize(function() {
+
+$(window).resize(function() {
     var newWidth = $(window).width();
     var newHeight = $(window).height();
     if (newWidth != clientWidth && newHeight != clientHeight) {
         location.replace(location);
     }
-});*/
+});
+
 function getHeartPoint(angle) {
 	var t = angle / Math.PI;
 	var x = 19.5 * (16 * Math.pow(Math.sin(t), 3));
 	var y = - 20 * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
 	return new Array(offsetX + x, offsetY + y);
 }
+
 function startHeartAnimation() {
 	var interval = 50;
 	var angle = 10;
@@ -64,27 +69,34 @@ function startHeartAnimation() {
 		}
 	}, interval);
 }
-function typewriter(code) {
-	code = $(code);
-	var $ele = $(code), str = $ele.html(), progress = 0;
-	$ele.html('');
-	var timer = setInterval(function() {
-		var current = str.substr(progress, 1);
-		if (current == '<') {
-			progress = str.indexOf('>', progress) + 1;
-		} else {
-			progress++;
-		}
-		$ele.html(str.substring(0, progress) + (progress & 1 ? '_' : ''));
-		if (progress >= str.length) {
-			clearInterval(timer);
-		}
-	}, 75);
-};
+
+(function($) {
+	$.fn.typewriter = function() {
+		this.each(function() {
+			var $ele = $(this), str = $ele.html(), progress = 0;
+			$ele.html('');
+			var timer = setInterval(function() {
+				var current = str.substr(progress, 1);
+				if (current == '<') {
+					progress = str.indexOf('>', progress) + 1;
+				} else {
+					progress++;
+				}
+				$ele.html(str.substring(0, progress) + (progress & 1 ? '_' : ''));
+				if (progress >= str.length) {
+					clearInterval(timer);
+				}
+			}, 75);
+		});
+		return this;
+	};
+})(jQuery);
+
 function getDaysInMonth(month) {
 	var data = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 	return data[month];
 }
+
 function timeElapse(date, mode) {
 	var current = new Date();
 	var years = NaN;
@@ -123,6 +135,7 @@ function timeElapse(date, mode) {
 	} else {
 		days = Math.floor((current.getTime() - date.getTime()) / (1000 * 3600 * 24));
 	}
+
 	if (hours < 10) {
 		hours = "0" + hours;
 	}
@@ -132,29 +145,33 @@ function timeElapse(date, mode) {
 	if (seconds < 10) {
 		seconds = "0" + seconds;
 	}
-	var result = (years > 0 ? "<span class=\"digit\">" + years + "</span> year ":"");
-	result += (months > 0 ? "<span class=\"digit\">" + months + "</span> month ":"");
+	var result = (years > 0 ? "<span class=\"digit\">" + years + "</span> year ":"")
+	result += (months >= 0 ? "<span class=\"digit\">" + months + "</span> month ":"");
 	result += "<span class=\"digit\">" + days + "</span> day ";
-	result += "<span class=\"digit\">" + hours + "</span> hr ";
-	result += "<span class=\"digit\">" + minutes + "</span> min ";
+	result += "<span class=\"digit\">" + hours + "</span> hr "
+	result += "<span class=\"digit\">" + minutes + "</span> min "
 	result += "<span class=\"digit\">" + seconds + "</span> sec";
 	
 	$("#elapseClock").html(result);
 }
+
 function showMessages() {
 	adjustWordsPosition();
 	$('#messages').fadeIn(5000, function() {
 		showLoveU();
 	});
 }
+
 function adjustWordsPosition() {
 	$('#words').css("position", "absolute");
 	$('#words').css("top", $("#garden").position().top + 195);
 	$('#words').css("left", $("#garden").position().left + 70);
 }
+
 function adjustCodePosition() {
 	$('#code').css("margin-top", ($("#garden").height() - $("#code").height()) / 2);
 }
+
 function showLoveU() {
 	$('#loveu').fadeIn(3000);
 }
